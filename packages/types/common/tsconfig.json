@@ -1,0 +1,10 @@
+{
+    "extends":"@config/ts/base",
+    "compilerOptions":{
+        "outDir":"./dist",
+        "rootDir":"./src",
+        "composite":true,
+        "emitDeclarationOnly": true
+    },
+    "include":["src/**/*"],
+}

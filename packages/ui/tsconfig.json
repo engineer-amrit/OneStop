@@ -1,0 +1,14 @@
+{
+    "extends": "@config/ts/react",
+    "compilerOptions": {
+        "lib": [
+            "dom"
+        ],
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "composite": true
+    },
+    "include": [
+        "src"
+    ],
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@ui/lib",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "src/index.tsx",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "dependencies": {
+    "@config/eslint": "workspace:^",
+    "@config/ts": "workspace:^",
+    "@types/common": "workspace:^",
+    "@types/react": "^19.2.7",
+    "@utils/shared": "workspace:^",
+    "clsx": "^2.1.1",
+    "react-hook-form": "^7.68.0",
+    "tailwind-merge": "^3.4.0"
+  }
+}

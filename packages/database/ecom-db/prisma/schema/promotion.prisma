@@ -1,0 +1,23 @@
+model Promotion {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  promotionTypeId String
+  promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
+
+  description  String
+  productId   String  @unique 
+  product     Product  @relation(fields: [productId], references: [id])
+  validFrom    DateTime
+  validTo      DateTime
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model PromotionType {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  code        String   @unique   // e.g. "SUMMER20"
+  value       Float    // e.g. 20.0 (percent or amount)
+  maxDistance Float?   // optional if not always relevant
+  minQuantity Int?     // optional if not always relevant
+  promotions  Promotion[]
+}

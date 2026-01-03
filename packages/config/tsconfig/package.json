@@ -1,0 +1,14 @@
+{
+  "name": "@config/ts",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./base": "./base.json",
+    "./nextjs": "./nextjs.json",
+    "./react": "./react.json"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

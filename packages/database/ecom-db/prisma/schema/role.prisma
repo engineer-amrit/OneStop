@@ -1,0 +1,11 @@
+model Role {
+  id    String   @id @default(auto()) @map("_id") @db.ObjectId
+  name  RoleType @unique @default(USER)
+  users User[]
+}
+
+enum RoleType {
+  USER
+  ADMIN
+  VENDOR
+}

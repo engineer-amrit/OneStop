@@ -1,0 +1,24 @@
+model UserAddress {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  commonAddress   CommonAddress @relation(fields: [commonAddressId], references: [id])
+  commonAddressId String        @db.ObjectId
+  streetAddress1  String
+  streetAddress2  String?
+  landmark        String
+  isDefault       Boolean       @default(false)
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String        @db.ObjectId
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model CommonAddress {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  city          String
+  pincode       Int
+  state         String
+  createdAt     DateTime      @default(now())
+  userAddresses UserAddress[]
+
+  @@unique([state, city, pincode], name: "state_city_pincode")
+}

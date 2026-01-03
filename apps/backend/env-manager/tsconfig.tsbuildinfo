@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/config/env.ts","./src/controllers/index.ts","./src/middlewares/error.ts","./src/routes/index.ts","./src/services/secret-service.ts","./src/services/utils/secret-utils.ts","./src/utils/logger.ts"],"version":"5.9.2"}

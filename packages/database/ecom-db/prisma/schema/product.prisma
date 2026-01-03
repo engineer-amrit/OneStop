@@ -1,0 +1,29 @@
+model Product {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  sideImages    String[]
+  thumbnail     String
+  name          String
+  description   String
+  brandId       String     @db.ObjectId
+  brand         Node       @relation("brand", fields: [brandId], references: [id])
+  subCategoryId String     @db.ObjectId
+  subCategory   Node       @relation("subCategory", fields: [subCategoryId], references: [id])
+  slug          String     @unique
+  sku           String     @unique
+  rating        Float      @default(7)
+  promotion     Promotion?
+  reviews       Review[]
+  gstId         String     @db.ObjectId
+  gst           Node       @relation("gst", fields: [gstId], references: [id])
+  tags          String[]
+  features      String[]
+  draft         Boolean    @default(true)
+  upComing      Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  variants      Variant[]
+  node          Node?      @relation(fields: [nodeId], references: [id])
+  nodeId        String?    @db.ObjectId
+
+  @@unique([name, brandId, subCategoryId])
+}

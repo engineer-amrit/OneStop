@@ -1,0 +1,30 @@
+{
+  "name": "env-manager-api",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc --build",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "check-types": "tsc --build --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@schema/common": "workspace:^",
+    "@config/ts": "workspace:^",
+    "@types/express": "^5.0.6",
+    "@types/common": "workspace:^",
+    "@utils/api": "workspace:^",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "tsx": "^4.21.0"
+  },
+  "devDependencies": {
+    "@config/eslint": "workspace:^"
+  }
+}

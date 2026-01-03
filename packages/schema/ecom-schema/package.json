@@ -1,0 +1,24 @@
+{
+  "name": "@schema/ecom",
+  "version": "1.0.0",
+  "description": "Combined Zod schemas (zero-build)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -b",
+    "build:watch": "tsc -b -w",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "cheack-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@config/eslint": "workspace:^",
+    "@config/ts": "workspace:^",
+    "@schema/common": "workspace:^",
+    "eslint": "^9.39.2",
+    "zod": "^4.1.13"
+  }
+}

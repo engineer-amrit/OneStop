@@ -1,0 +1,19 @@
+{
+  "name": "@types/ecom",
+  "version": "1.0.0",
+  "description": "",
+  "types": "src/index.ts",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@config/ts": "workspace:^"
+  },
+  "devDependencies": {
+    "@schema/ecom": "workspace:^",
+    "@types/common": "workspace:^"
+  }
+}

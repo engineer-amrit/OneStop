@@ -1,0 +1,25 @@
+model Node {
+    id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+    name               String?
+    ProductsAsCategory Product[] @relation("subCategory")
+    VariantAsUnit      Variant[] @relation("unit")
+    ProductsAsBrand    Product[] @relation("brand")
+    ProductsAsGst      Product[] @relation("gst")
+    parentId           String?   @db.ObjectId
+    parent             Node?     @relation("NodeHierarchy", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    children           Node[]    @relation("NodeHierarchy")
+    type               NodeType
+    products           Product[]
+    variants           Variant[]
+    value              Int?
+
+    @@unique([name, type, value], name: "name_type_value")
+}
+
+enum NodeType {
+    CATEGORY
+    SUBCATEGORY
+    UNIT
+    BRAND
+    GST
+}

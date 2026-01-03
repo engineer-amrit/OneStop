@@ -1,0 +1,17 @@
+model Advertise {
+      id          String        @id @default(auto()) @map("_id") @db.ObjectId
+      title       String
+      type        AdvertiseType
+      message     String?
+      videoUrl    String?
+      image       String?
+      redirectUrl String?
+      isDraft     Boolean       @default(true)
+      updatedAt   DateTime      @updatedAt
+      createdAt   DateTime      @default(now())
+}
+
+enum AdvertiseType {
+      BANNER
+      POPUP
+}

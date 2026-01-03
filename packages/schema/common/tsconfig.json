@@ -1,0 +1,9 @@
+{
+  "extends":"@config/ts/base",
+  "compilerOptions": {
+    "composite": true /* Enable constraints that allow a TypeScript project to be used with project references. */,
+    "rootDir": "./src",
+    "outDir": "./dist",
+  },
+  "include": ["src/**/*"],
+}

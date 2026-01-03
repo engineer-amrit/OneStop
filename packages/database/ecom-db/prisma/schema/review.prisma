@@ -1,0 +1,20 @@
+model Review {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  rating     Int      // 1–5 stars
+  images    String[] // optional images with the review
+  comment    String?
+  status     ReviewStatus @default(PENDING) // moderation workflow
+  createdAt  DateTime @default(now())
+}
+
+enum ReviewStatus {
+  PENDING   // waiting for approval
+  APPROVED  // visible to others
+  REJECTED  // hidden, maybe violates policy
+}

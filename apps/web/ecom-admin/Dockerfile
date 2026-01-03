@@ -3,7 +3,7 @@ FROM node:lts-bookworm-slim AS base
 WORKDIR /app
 # Copy root metadata
 COPY ./out/full/ .
-COPY ./out/json .
+COPY ./out/json/ .
 
 # Stage 2: build
 FROM base AS build

@@ -1,18 +1,16 @@
 # Stage 1: base
-FROM node:lts-bookworm-slim AS base
+FROM node:lts-bookworm-slim AS dep
 WORKDIR /app
 # Copy root metadata
-COPY ./out/full/ .
 COPY ./out/json/ .
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile
 
 # Stage 2: build
-FROM base AS build
+FROM dep AS build
 WORKDIR /app
-# Install pnpm and turbo
-RUN npm install -g pnpm turbo
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-RUN turbo  build
+COPY ./out/full/ .
+RUN pnpm build
 
 # # Stage 3: production nginx server
 FROM nginx:alpine

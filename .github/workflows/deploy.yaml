@@ -34,16 +34,15 @@ jobs:
       - name: Install Turbo
         run: npm install -g turbo
 
-
-      # 4️⃣ Turbo prune only the app we want
+      # 3 Turbo prune only the app we want
       - name: Turbo prune app
         run: turbo prune --scope=${{ matrix.app.scope }} --docker --out-dir=out
 
-    # ls out/full to verify
+      # ls out/full to verify
       - name: List pruned files
         run: ls out
 
-      # # 5️⃣ Build Docker image for the pruned app
+      #  5️⃣ Build Docker image for the pruned app
       # - name: Build Docker image
       #   run: |
       #     docker build \

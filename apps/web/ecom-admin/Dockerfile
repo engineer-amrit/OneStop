@@ -2,14 +2,14 @@
 FROM node:lts-bookworm-slim AS dep
 WORKDIR /app
 # Copy root metadata
-COPY ./out/json/ .
+COPY ./json/ .
 RUN npm install -g pnpm
 RUN pnpm install --frozen-lockfile
 
 # Stage 2: build
 FROM dep AS build
 WORKDIR /app
-COPY ./out/full/ .
+COPY ./full/ .
 RUN pnpm build
 
 # # Stage 3: production nginx server

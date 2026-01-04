@@ -20,6 +20,10 @@ jobs:
           #   path: "backend/ecom-api"
           #   image: "backend"
 
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM_ID: ${{ secrets.TURBO_TEAM_ID }}
+      
     steps:
       # 1️⃣ Checkout repo
       - name: Checkout repo
@@ -38,12 +42,12 @@ jobs:
       - name: Turbo prune app
         run: turbo prune --scope=${{ matrix.app.scope }} --docker --out-dir=out
 
-      # 6️⃣ Login to DockerHub
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKER_USERNAME }}
-      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      #6️⃣ Login to DockerHub
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
 
       # 5️⃣ Build Docker image for the pruned app
@@ -51,11 +55,11 @@ jobs:
         run: |
           docker build \
             --cache-from ipkiller/${{ matrix.app.image }}:latest \
-            -f apps/${{ matrix.app.path }}/Dockerfile \
+            -f out/apps/${{ matrix.app.path }}/Dockerfile \
             -t ipkiller/${{ matrix.app.image }}:latest \
             out
 
     
       # # 7️⃣ Push Docker image
-      # - name: Push Docker image
-      #   run: docker push ipkiller/${{ matrix.app.image }}:latest
+      - name: Push Docker image
+        run: docker push ipkiller/${{ matrix.app.image }}:latest

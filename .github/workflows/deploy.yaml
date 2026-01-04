@@ -55,7 +55,7 @@ jobs:
         run: |
           docker build \
             --cache-from ipkiller/${{ matrix.app.image }}:latest \
-            -f ./out/apps/${{ matrix.app.path }}/Dockerfile \
+            -f apps/${{ matrix.app.path }}/Dockerfile \
             -t ipkiller/${{ matrix.app.image }}:latest \
             out
 

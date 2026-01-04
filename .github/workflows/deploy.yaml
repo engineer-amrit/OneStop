@@ -23,7 +23,7 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM_ID: ${{ secrets.TURBO_TEAM_ID }}
-      
+
     steps:
       # 1️⃣ Checkout repo
       - name: Checkout repo
@@ -55,7 +55,7 @@ jobs:
         run: |
           docker build \
             --cache-from ipkiller/${{ matrix.app.image }}:latest \
-            -f out/apps/${{ matrix.app.path }}/Dockerfile \
+            -f ./out/apps/${{ matrix.app.path }}/Dockerfile \
             -t ipkiller/${{ matrix.app.image }}:latest \
             out
 

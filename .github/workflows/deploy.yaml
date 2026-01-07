@@ -14,10 +14,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+        run: npm install -g pnpm
 
       - name: Get affected packages
         run: |
-          turbo run build --affected --output=json > changes.json
+          pnpm turbo run build --affected --output=json > changes.json
 
       - name: Build matrix
         id: matrix
@@ -64,7 +68,7 @@ jobs:
 
       - name: Turbo prune
         run: |
-          turbo prune \
+          pnpm turbo prune \
             --scope=${{ matrix.app.scope }} \
             --docker \
             --out-dir=pruned

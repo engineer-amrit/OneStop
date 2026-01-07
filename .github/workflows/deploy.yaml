@@ -40,6 +40,7 @@ jobs:
                 | {
                     scope: .name,
                     image: (.name | split("/")[-1] | gsub("^ecom-"; ""))
+                    path: .path
                   }
               )
           ' changes.json)
@@ -88,7 +89,7 @@ jobs:
           IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
 
           docker build \
-            -f pruned/Dockerfile \
+            -f ${{matrix.path}}\\Dockerfile \
             -t $IMAGE:${{ github.sha }} \
             -t $IMAGE:latest \
             --cache-from=$IMAGE:latest \

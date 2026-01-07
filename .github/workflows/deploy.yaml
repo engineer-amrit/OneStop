@@ -18,15 +18,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Install pnpm globally
+        run: npm install -g pnpm@9
 
-      - name: Enable pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@9.0.0 --activate
-
-      - name: Install Turbo
-        run: |
-          pnpm install turbo --frozen-lockfile
+      - name: Install Turbo globally
+        run: npm install -g turbo@latest
 
       - name: Get affected packages
         run: |

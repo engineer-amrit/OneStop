@@ -19,12 +19,18 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install pnpm globally
-        run: npm install -g turbo
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.0.0 --activate
+
+      - name: Install Turbo
+        run: |
+          pnpm install turbo --frozen-lockfile
 
       - name: Get affected packages
         run: |
-          turbo run build --affected --output=json > changes.json
+          pnpm turbo run build --affected --output=json > changes.json
 
       - name: Build matrix
         id: matrix

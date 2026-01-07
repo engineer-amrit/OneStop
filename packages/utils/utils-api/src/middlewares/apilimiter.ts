@@ -11,7 +11,7 @@ const limiter = rateLimit({
   },
 });
 
-export const rateLimiter = (config: Ienv) => async (req: Request, res: Response, next: NextFunction) => {
+export const rateLimiter = (config: Pick<Ienv, "NODE_ENV">) => async (req: Request, res: Response, next: NextFunction) => {
   if (config.NODE_ENV === "production")
     await limiter(req, res, next);
   else

@@ -1,8 +1,8 @@
 **.env
 **/logs/
 .gitignore
-**dist
 .git
+**/dist/
 **node_modules
 **/uploads/
 **.turbo

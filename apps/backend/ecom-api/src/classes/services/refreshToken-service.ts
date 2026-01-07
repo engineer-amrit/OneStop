@@ -1,4 +1,4 @@
-import { type PrismaClient, prisma } from "@database/prisma-ecom";
+import { type PrismaClient } from "@database/prisma-ecom";
 import { CustomError } from "@utils/api";
 
 export class RefreshToken {
@@ -28,5 +28,3 @@ export class RefreshToken {
         await this.prisma.refreshToken.delete({ where: { id } });
     }
 }
-
-export const refreshTokenService = new RefreshToken(prisma);

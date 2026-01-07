@@ -22,7 +22,7 @@ export class MediaControllerTx extends MediaController<Prisma.TransactionClient>
 
 const blockHandlerTx = new BlockHandlerTx();
 const blockHandler = new BlockHandler();
-export class Block {
+class Block {
   createControllerTx = blockHandlerTx.createController.bind(blockHandlerTx)
   createController = blockHandler.createController.bind(blockHandler)
   createMiddlewareTx = blockHandlerTx.createMiddleware.bind(blockHandlerTx)

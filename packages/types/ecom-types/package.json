@@ -9,10 +9,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@config/ts": "workspace:^"
-  },
   "devDependencies": {
+    "@config/ts": "workspace:^",
     "@schema/ecom": "workspace:^",
     "@types/common": "workspace:^"
   }

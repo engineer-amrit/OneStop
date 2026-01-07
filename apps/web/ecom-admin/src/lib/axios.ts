@@ -15,7 +15,6 @@ axiosInstance.interceptors.request.use(
         if (token) {
             config.headers["x-csrf-token"] = token;
         }
-        config.headers["x-api-key"] = conf.api_key;
         return config;
     },
     (error) => {

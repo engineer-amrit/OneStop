@@ -14,10 +14,12 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "cheack-types": "tsc --noEmit"
   },
-  "dependencies": {
+  "devDependencies": {
     "@config/eslint": "workspace:^",
     "@config/ts": "workspace:^",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.2"
+  },
+  "dependencies": {
     "zod": "^4.1.13"
   }
 }

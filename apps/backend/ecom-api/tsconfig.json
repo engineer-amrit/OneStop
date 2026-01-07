@@ -2,7 +2,7 @@
   "extends": "@config/ts/base",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "paths": {
       "@/*": [
         "./src/*"
@@ -10,6 +10,8 @@
     }
   },
   "include": [
-    "src"
+    "src",
+    "index.ts"
+    // "esbuild.ts"
   ],
 }

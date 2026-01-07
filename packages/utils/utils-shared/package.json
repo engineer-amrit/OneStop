@@ -18,7 +18,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@config/ts": "workspace:^",
     "@schema/common": "workspace:^",
     "express-rate-limit": "^7.5.0",
     "winston": "^3.17.0",
@@ -26,6 +25,7 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@config/ts": "workspace:^",
     "@config/eslint": "workspace:^",
     "@types/common": "workspace:^",
     "@types/express": "^5.0.6",

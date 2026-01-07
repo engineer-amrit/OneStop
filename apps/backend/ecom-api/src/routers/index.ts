@@ -3,7 +3,6 @@ import type express from "express";
 
 // middlewares
 import { getAccessLogger } from '@utils/api';
-import { apiMiddleware } from '@utils/api';
 import { TokenVerifierMiddleware } from '../middleware/auth/tokenVerifier-middleware.js'
 import { rateLimiter } from '@utils/api';
 import { generalLogger } from '@/utils/logger.js';
@@ -31,7 +30,7 @@ const tokenVerifier = new TokenVerifierMiddleware(
 const router: express.Router = Router()
 
 // Apply security middleware globally
-router.use(apiMiddleware(config, "x-api-key"), csrfSetMiddleware.setCsrfToken);
+router.use(csrfSetMiddleware.setCsrfToken);
 
 
 // Public router: /v1/public
@@ -47,7 +46,7 @@ router.use("/v1/client", accessLogger, tokenVerifier.verify, clientRouter)
 router.use("/v1/admin", accessLogger, tokenVerifier.verify, adminRouter)
 
 // health check route
-router.get('/v1/health', (_, res) => {
+router.get('/health', (_, res) => {
   res.status(200).json({
     status: 'success',
     message: 'Server is running smoothly',

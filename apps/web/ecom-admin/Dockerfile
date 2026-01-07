@@ -8,6 +8,11 @@ RUN pnpm install --frozen-lockfile
 
 # Stage 2: build
 FROM dep AS build
+ARG TURBO_TOKEN
+ENV TURBO_TOKEN=${TURBO_TOKEN}
+
+ARG TURBO_TEAM
+ENV TURBO_TEAM=${TURBO_TEAM}
 WORKDIR /app
 COPY ./full/ .
 RUN pnpm build

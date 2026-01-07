@@ -12,11 +12,13 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
-  "dependencies": {
+  "devDependencies": {
     "@config/eslint": "workspace:^",
     "@config/ts": "workspace:^",
     "@types/common": "workspace:^",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.7"
+  },
+  "dependencies": {
     "@utils/shared": "workspace:^",
     "clsx": "^2.1.1",
     "react-hook-form": "^7.68.0",

@@ -10,7 +10,7 @@ function envJsPlugin(env: Record<string, string>): Plugin {
     configureServer(server) {
       server.middlewares.use('/env.js', (_, res) => {
         const e = {
-          API_URL: env.SERVER_URL,
+          SERVER_URL: env.SERVER_URL,
           NODE_ENV: env.APP_NODE_ENV,
         };
 

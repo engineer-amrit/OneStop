@@ -28,6 +28,8 @@ coverage
 **/build/
 **/dist/
 
+changes.json
+
 
 # Debug
 npm-debug.log*

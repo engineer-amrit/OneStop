@@ -13,15 +13,14 @@
   "devDependencies": {
     "prettier": "^3.7.4",
     "turbo": "^2.6.3",
+    "@types/node": "^25.0.1",
     "typescript": "5.9.2"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
   },
-  "dependencies": {
-    "@types/node": "^25.0.1"
-  },
+  "dependencies": {},
   "overrides": {
     "zod": "4.1.13"
   }

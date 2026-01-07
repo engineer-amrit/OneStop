@@ -95,8 +95,7 @@ export class CustomLogger {
 
   private baseLog(req: Request | RequestWithUser, log: LogEntry) {
 
-    const Log = {
-      userId: ("decoded" in req && req.decoded) ? req.decoded.sub : "guest",
+    const Log: Record<string, string | number | undefined | string[]> = {
       method: req.method,
       url: req.originalUrl,
       status: log.status,
@@ -105,6 +104,10 @@ export class CustomLogger {
       referrer: req.headers['referer'] || req.headers['referrer'],
       ...log
     };
+
+    if ("decoded" in req && req.decoded) {
+      Log['userId'] = req.decoded.sub;
+    }
     return { message: Log };
   }
 

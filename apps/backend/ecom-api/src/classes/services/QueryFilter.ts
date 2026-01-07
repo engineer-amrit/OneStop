@@ -1,7 +1,7 @@
 // src/utils/QueryFilterBuilder.ts
 import type { ProductQuery } from "@schema/ecom";
 
-export type Query = ProductQuery;
+type Query = ProductQuery;
 
 interface Options {
     skip: number;

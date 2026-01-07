@@ -2,9 +2,20 @@
   "$schema": "https://turborepo.com/schema.json",
   "tasks": {
     "build": {
+      "cache": true,
       "dependsOn": ["^build", "^generate"],
       "inputs": ["$TURBO_DEFAULT$", "src/**"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "env": [
+        "HOST",
+        "DOMAIN",
+        "CLIENT_URL",
+        "DB_URL",
+        "JWT_SECRET",
+        "CSRF_SECRET",
+        "NODE_ENV",
+        "TEST_KEY"
+      ]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
@@ -14,12 +25,13 @@
       "persistent": true
     },
     "dev": {
-      "cache": true,
+      "cache": false,
       "dependsOn": ["^build"],
       "persistent": true
     },
     "generate": {
-      "outputs": ["packages/database/src/client/**"]
+      "outputs": ["dist/**"],
+      "inputs": ["prisma/schema/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]

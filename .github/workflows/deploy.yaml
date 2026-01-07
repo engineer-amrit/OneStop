@@ -26,7 +26,7 @@ jobs:
 
       - name: Get affected packages
         run: |
-          pnpm turbo run build --affected --output=json > changes.json
+          turbo ls --affected --output=json > changes.json
 
       - name: Build matrix
         id: matrix

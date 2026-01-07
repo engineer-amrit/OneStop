@@ -68,10 +68,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Enable pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@9.0.0 --activate
+      - name: Install pnpm globally
+        run: npm install -g turbo
 
       - name: Turbo prune
         run: |

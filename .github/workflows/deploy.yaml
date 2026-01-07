@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 20
 
-     - name: Install pnpm globally
+      - name: Install pnpm globally
         run: npm install -g turbo
 
       - name: Get affected packages

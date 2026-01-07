@@ -36,7 +36,7 @@ jobs:
           MATRIX=$(jq -c --argjson allowed "$ALLOWED" '
             .packages.items
             | map(
-                select(.name as $n | $allowed | index($n))
+                select($allowed | index(.name))
                 | {
                     scope: .name,
                     image: (.name | split("/")[-1] | gsub("^ecom-"; ""))

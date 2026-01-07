@@ -19,14 +19,12 @@ jobs:
         with:
           node-version: 20
 
-      - name: Enable pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@9.0.0 --activate
+     - name: Install pnpm globally
+        run: npm install -g turbo
 
       - name: Get affected packages
         run: |
-          pnpm dlx turbo run build --affected --output=json > changes.json
+          turbo run build --affected --output=json > changes.json
 
       - name: Build matrix
         id: matrix
@@ -75,10 +73,10 @@ jobs:
 
       - name: Turbo prune
         run: |
-          pnpm turbo prune \
-            --scope=${{ matrix.app.scope }} \
-            --docker \
-            --out-dir=pruned
+          turbo prune \
+           --scope=${{ matrix.app.scope }} \
+           --docker \
+           --out-dir=pruned
 
       - name: Pull cache image if exists
         run: |

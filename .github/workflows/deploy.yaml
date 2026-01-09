@@ -24,10 +24,12 @@ jobs:
 
       - name: Install Turbo
         run: |
-          pnpm add turbo -w
+          TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml)
+          echo "Installing Turbo $TURBO_VERSION"
+          pnpm add turbo@${TURBO_VERSION} -w
 
       - name: log turbo version
-        run: turbo --version
+        run: pnpm turbo --version
 
       # - name: Build matrix
       #   id: matrix

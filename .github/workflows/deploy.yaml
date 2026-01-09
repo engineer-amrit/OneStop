@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Turbo
         run: |
-          pnpm install turbo --wokspace-root
+          pnpm add turbo
 
       - name: log turbo version
         run: turbo --version

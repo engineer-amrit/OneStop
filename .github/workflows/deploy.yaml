@@ -24,12 +24,14 @@ jobs:
           TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml | tr -d '[:space:]')
           echo "Installing Turbo $TURBO_VERSION"
           npm install -g "turbo@$TURBO_VERSION"
+      - name: log turbo version
+        run: turbo --version
 
-      - name: Build matrix
-        id: matrix
-        run: |
-          MATRIX=$(turbo ls --affected --output=json | pnpm script -c --allow @backend/ecom @web/ecom-admin)
-          echo "MATRIX=$MATRIX" >> $GITHUB_OUTPUT
+      # - name: Build matrix
+      #   id: matrix
+      #   run: |
+      #     MATRIX=$(turbo ls --affected --output=json | pnpm script -c --allow @backend/ecom @web/ecom-admin)
+      #     echo "MATRIX=$MATRIX" >> $GITHUB_OUTPUT
 
   # build:
   #   needs: detect

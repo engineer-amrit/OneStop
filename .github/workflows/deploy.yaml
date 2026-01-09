@@ -84,7 +84,7 @@ jobs:
       - name: Docker build
         run: |
           docker build \
-            -f ${{matrix.path}}/Dockerfile \
+            -f ${{matrix.app.path}}/Dockerfile \
             -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.imageName }}:${{ github.sha }} \
             -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.imageName }}:latest \
             --cache-from=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.imageName }}:latest \

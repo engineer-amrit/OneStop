@@ -1,0 +1,10 @@
+{
+    "extends": "@config/ts/base",
+    "compilerOptions": {
+        "rootDir": ".",
+    },
+    "include": [
+        "src",
+        "esbuild.ts"
+    ]
+}

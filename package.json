@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo  build",
+    "script:dev": "pnpm --filter @scripts/deploy dev",
+    "script": " pnpm --filter @scripts/deploy start",
     "dev": "turbo  dev",
     "clean": "turbo  clean",
     "clear:out": "rm -rf out",

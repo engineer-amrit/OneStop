@@ -7,7 +7,7 @@ on:
       - develop
 
 jobs:
-  detect:
+  build-Matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
@@ -18,88 +18,73 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install pnpm globally
-        run: npm install -g pnpm@9
+        cache: "pnpm"
 
-      - name: Install Turbo globally
-        run: npm install -g turbo@latest
-
-      - name: Get affected packages
+      - name: Install Turbo
         run: |
-          turbo ls --affected --output=json > changes.json
+          TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml | tr -d '[:space:]')
+          echo "Installing Turbo $TURBO_VERSION"
+          npm install -g "turbo@$TURBO_VERSION"
 
       - name: Build matrix
         id: matrix
         run: |
-          ALLOWED='["@web/ecom-admin","@backend/ecom"]'
+          MATRIX=$(turbo ls --affected --output=json | pnpm script -c --allow @backend/ecom @web/ecom-admin)
+          echo "MATRIX=$MATRIX" >> $GITHUB_OUTPUT
 
-          MATRIX=$(jq -c --argjson allowed "$ALLOWED" '
-            .packages.items
-            | map(
-                select($allowed |index(.name))
-                | {
-                    scope: .name,
-                    image: (.name | split("/")[-1] | gsub("^ecom-"; "")),
-                    path: .path
-                  }
-              )
-          ' changes.json)
+  # build:
+  #   needs: detect
+  #   if: needs.detect.outputs.matrix != '[]'
+  #   runs-on: ubuntu-latest
 
-          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+  #   strategy:
+  #     matrix:
+  #       app: ${{ fromJson(needs.detect.outputs.matrix) }}
 
-  build:
-    needs: detect
-    if: needs.detect.outputs.matrix != '[]'
-    runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-    strategy:
-      matrix:
-        app: ${{ fromJson(needs.detect.outputs.matrix) }}
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    steps:
-      - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+  #     - name: Install pnpm globally
+  #       run: npm install -g turbo
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+  #     - name: Turbo prune
+  #       run: |
+  #         turbo prune \
+  #          --scope=${{ matrix.app.scope }} \
+  #          --docker \
+  #          --out-dir=pruned
 
-      - name: Install pnpm globally
-        run: npm install -g turbo
+  #     - name: Pull cache image if exists
+  #       run: |
+  #         IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
+  #         docker pull $IMAGE:latest || true
 
-      - name: Turbo prune
-        run: |
-          turbo prune \
-           --scope=${{ matrix.app.scope }} \
-           --docker \
-           --out-dir=pruned
+  #     - name: Docker build
+  #       run: |
+  #         IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
 
-      - name: Pull cache image if exists
-        run: |
-          IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
-          docker pull $IMAGE:latest || true
+  #         docker build \
+  #           -f ${{matrix.path}}\\Dockerfile \
+  #           -t $IMAGE:${{ github.sha }} \
+  #           -t $IMAGE:latest \
+  #           --cache-from=$IMAGE:latest \
+  #           --build-arg TURBO_TOKEN=${{ secrets.TURBO_TOKEN }} \
+  #           --build-arg TURBO_TEAM=${{ secrets.TURBO_TEAM }} \
+  #           pruned
 
-      - name: Docker build
-        run: |
-          IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
+  #     - name: Push images
+  #       run: |
+  #         IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
 
-          docker build \
-            -f ${{matrix.path}}\\Dockerfile \
-            -t $IMAGE:${{ github.sha }} \
-            -t $IMAGE:latest \
-            --cache-from=$IMAGE:latest \
-            --build-arg TURBO_TOKEN=${{ secrets.TURBO_TOKEN }} \
-            --build-arg TURBO_TEAM=${{ secrets.TURBO_TEAM }} \
-            pruned
-
-      - name: Push images
-        run: |
-          IMAGE=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.image }}
-
-          docker push $IMAGE:${{ github.sha }}
-          docker push $IMAGE:latest
+  #         docker push $IMAGE:${{ github.sha }}
+  #         docker push $IMAGE:latest

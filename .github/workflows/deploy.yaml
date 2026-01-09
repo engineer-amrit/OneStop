@@ -21,7 +21,7 @@ jobs:
 
       - name: Install Turbo
         run: |
-          TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml | tr -d '[:space:]')
+          TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml)
           echo "Installing Turbo $TURBO_VERSION"
           npm install -g "turbo@$TURBO_VERSION"
       - name: log turbo version

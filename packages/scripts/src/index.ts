@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { runEnv } from './generate-env.js';
 import { runChanges } from './changes.js';
 import { getTurboVersion } from './getTurboVersion.js';
@@ -25,8 +27,7 @@ if (hasEnv && hasChanges) {
     }
 
     if (hasTurboVersion) {
-        const version = getTurboVersion();
-        console.log(version);
+        getTurboVersion();
         return;
     }
 

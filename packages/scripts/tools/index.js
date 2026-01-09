@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // src/generate-env.ts
 import fs from "fs";
 import path from "path";
@@ -19,6 +21,9 @@ function runEnv() {
   console.log("\u2705 env.js generated at", outFile);
 }
 
+// src/changes.ts
+import path2 from "path";
+
 // src/stdin.ts
 async function readStdin() {
   return new Promise((resolve) => {
@@ -34,13 +39,13 @@ async function readStdin() {
 }
 
 // src/changes.ts
+import fs2 from "fs";
 var getAllowList = (args2) => {
-  var _a;
   const allowIndex = args2.indexOf("--allow");
   if (allowIndex === -1 || allowIndex === args2.length - 1) {
     return [];
   }
-  return ((_a = args2[allowIndex + 1]) == null ? void 0 : _a.split(",").map((s) => s.trim())) || [];
+  return args2.slice(allowIndex + 1).filter((arg) => !arg.startsWith("--"));
 };
 var getImageName = (iteam) => {
   return {
@@ -52,21 +57,25 @@ async function runChanges(args2) {
   const input = await readStdin();
   const affected = JSON.parse(input);
   const items = affected.packages.items;
+  let data;
   if (args2.includes("--apps")) {
-    console.log(items.filter((i) => i.name.includes("apps")).map(getImageName));
+    data = items.filter((i) => i.name.includes("apps")).map(getImageName);
   } else if (args2.includes("--allow")) {
     const allowList = getAllowList(args2);
-    console.log(items.filter(
+    data = items.filter(
       (i) => allowList.includes(i.name)
-    ).map(getImageName));
+    ).map(getImageName);
   } else {
-    console.log(items);
+    throw new Error("No valid filter provided. Use --apps or --allow [list]");
   }
+  let outputPath = path2.resolve(process.cwd(), "../../", "matrix.txt");
+  outputPath = path2.normalize(outputPath);
+  fs2.writeFileSync(outputPath, JSON.stringify(data), "utf8");
 }
 
 // src/getTurboVersion.ts
-import fs2 from "fs";
-import path2 from "path";
+import fs3 from "fs";
+import path3 from "path";
 
 // ../../node_modules/.pnpm/js-yaml@4.1.1/node_modules/js-yaml/dist/js-yaml.mjs
 function isNothing(subject) {
@@ -2699,15 +2708,16 @@ function getTurboVersion() {
   if (!lockFile || !lockFile.includes("pnpm-lock.yaml")) {
     throw new Error("Lock file path not provided");
   }
-  lockFile = path2.resolve(process.cwd(), "../../", lockFile);
-  lockFile = path2.normalize(lockFile);
-  if (!fs2.existsSync(lockFile)) throw new Error(`pnpm-lock.yaml not found at ${lockFile}`);
-  const fileContent = fs2.readFileSync(lockFile, "utf8");
+  lockFile = path3.resolve(process.cwd(), "../../", lockFile);
+  lockFile = path3.normalize(lockFile);
+  if (!fs3.existsSync(lockFile)) throw new Error(`pnpm-lock.yaml not found at ${lockFile}`);
+  const fileContent = fs3.readFileSync(lockFile, "utf8");
   const lock = jsYaml.load(fileContent);
   try {
     const turboVersion = lock.importers["."].devDependencies.turbo.version;
     if (!turboVersion) throw new Error();
-    return turboVersion;
+    const outputPath = path3.join(path3.dirname(lockFile), "turbo.txt");
+    fs3.writeFileSync(outputPath, turboVersion, "utf8");
   } catch {
     throw new Error("Turbo not found in pnpm-lock.yaml (v7+ format expected)");
   }
@@ -2732,8 +2742,7 @@ if (hasEnv && hasChanges) {
     return;
   }
   if (hasTurboVersion) {
-    const version = getTurboVersion();
-    console.log(version);
+    getTurboVersion();
     return;
   }
   console.error(`
@@ -2741,9 +2750,12 @@ if (hasEnv && hasChanges) {
 
 Usage:
   -e, --env        Generate env.js
-  -c, --changes    Read turbo affected JSON from stdin
-  --allow      Filter affected packages by allow list (spaced separated)
+  -c, --changes --[filter name]   Read turbo affected JSON from stdin
   -tv, --turbo-version   Get Turbo version from pnpm-lock.yaml
+
+filter name:
+  --apps       Filter affected packages to only apps
+  --allow     Filter affected packages by allow list (space separated)
 
 Examples:
   pnpm tsx scripts/run.ts --env

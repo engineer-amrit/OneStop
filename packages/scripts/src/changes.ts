@@ -1,5 +1,7 @@
 // scripts/changes.ts
+import path from 'path';
 import { readStdin } from './stdin.js';
+import fs from 'fs';
 
 type Item = {
     name: string;
@@ -19,7 +21,8 @@ const getAllowList = (args: string[]): string[] => {
     if (allowIndex === -1 || allowIndex === args.length - 1) {
         return [];
     }
-    return args[allowIndex + 1]?.split(',').map(s => s.trim()) || [];
+    // formate --allow pkg1 pkg2 pkg3
+    return args.slice(allowIndex + 1).filter(arg => !arg.startsWith('--'));
 }
 
 const getImageName = (iteam: Item) => {
@@ -34,19 +37,24 @@ export async function runChanges(args: string[]) {
     const affected: Affected = JSON.parse(input);
     const items = affected.packages.items;
 
+    let data
+
     if (args.includes('--apps')) {
-        const data = items.filter(i => i.name.includes("apps"))
+        data = items.filter(i => i.name.includes("apps"))
             .map(getImageName);
-        console.log(JSON.stringify(data));
     }
     else if (args.includes("--allow")) {
         const allowList = getAllowList(args);
-        const data = items.filter(i => allowList.includes(i.name)
+        data = items.filter(i => allowList.includes(i.name)
         )
             .map(getImageName);
-        console.log(JSON.stringify(data));
 
     } else {
-        console.log(JSON.stringify(items));
+        throw new Error('No valid filter provided. Use --apps or --allow [list]');
     }
+
+    // Output matrix.txt for GitHub Actions at current working directory
+    let outputPath = path.resolve(process.cwd(), "../../", 'matrix.txt');
+    outputPath = path.normalize(outputPath);
+    fs.writeFileSync(outputPath, JSON.stringify(data), 'utf8');
 }

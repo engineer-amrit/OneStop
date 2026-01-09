@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 
-export function getTurboVersion(): string {
+export function getTurboVersion() {
     const idx = process.argv.findIndex(arg => arg === '--turbo-version' || arg === '-tv');
     let lockFile = idx !== -1 && process.argv.length > idx + 1 ? process.argv[idx + 1] : null;
 
@@ -23,7 +23,9 @@ export function getTurboVersion(): string {
         // Access version in v7+ format
         const turboVersion = lock.importers['.'].devDependencies.turbo.version;
         if (!turboVersion) throw new Error();
-        return turboVersion;
+        // create turbo.txt file in the same directory as pnpm-lock.yaml
+        const outputPath = path.join(path.dirname(lockFile), 'turbo.txt');
+        fs.writeFileSync(outputPath, turboVersion, 'utf8');
     } catch {
         throw new Error('Turbo not found in pnpm-lock.yaml (v7+ format expected)');
     }

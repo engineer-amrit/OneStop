@@ -15,15 +15,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
         with:
-          version: 8
+          node-version: 20
+          run: |
+            npm install -g pnpm
 
       - name: Install Turbo
         run: |
-          TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml)
-          echo "Installing Turbo $TURBO_VERSION"
-          pnpm install turbo@$TURBO_VERSION
+          pnpm install turbo --wokspace-root
 
       - name: log turbo version
         run: turbo --version

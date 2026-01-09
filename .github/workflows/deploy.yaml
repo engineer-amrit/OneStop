@@ -23,8 +23,8 @@ jobs:
         run: |
           TURBO_VERSION=$(pnpm script -tv ./pnpm-lock.yaml)
           echo "Installing Turbo $TURBO_VERSION"
+          pnpm install turbo@$TURBO_VERSION
 
-          pnpm exec turbo --version
       - name: log turbo version
         run: turbo --version
 

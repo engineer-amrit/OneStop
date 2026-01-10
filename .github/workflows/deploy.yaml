@@ -89,7 +89,7 @@ jobs:
             -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.imageName }}:latest \
             --cache-from=${{ secrets.DOCKER_USERNAME }}/${{ matrix.app.imageName }}:latest \
             --build-arg TURBO_TOKEN=${{ secrets.TURBO_TOKEN }} \
-            --build-arg TURBO_TEAM=${{ secrets.TURBO_TEAM }} \
+            --build-arg TURBO_TEAM=${{ secrets.TURBO_TEAM_ID }} \
             out
 
       - name: Push images

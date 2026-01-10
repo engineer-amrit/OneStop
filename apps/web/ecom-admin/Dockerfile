@@ -27,7 +27,7 @@ RUN apk add --no-cache nodejs
 COPY --from=build /app/apps/web/ecom-admin/dist /usr/share/nginx/html
 
 # copy generator script
-COPY --from=build /app/apps/packages/scripts/tools/index.js ./scripts/index.js
+COPY --from=build /app/packages/scripts/tools/index.js ./scripts/index.js
 COPY --from=build /app/apps/web/ecom-admin/scripts/index.sh ./docker-entrypoint.d/10-generate-env.sh
 
 # auto-run script on container start
